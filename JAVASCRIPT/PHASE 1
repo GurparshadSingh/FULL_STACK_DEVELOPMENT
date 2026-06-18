@@ -1,0 +1,194 @@
+//!     var
+//* Old way (pre-ES6)
+//* Function-scoped (not block-scoped)
+//* Can be redeclared and updated
+
+var x = 10;
+var x = 20; //! allowed
+
+
+//* ignores block scope
+if (true) {
+    var a = 5;
+}
+console.log(a); // 5 (leaks outside block)
+
+
+//! let
+//* Modern (ES6)
+//* Block-scoped
+//* Can be updated, but NOT redeclared in same scope
+
+let y = 10;
+y = 20; // ok
+
+// let y = 30; ❌ error
+
+
+
+//! const
+//*  Block-scoped
+//* Cannot be reassigned
+const z = 100;
+//* z = 200 ❌ not allowed
+
+//! But objects/arrays inside can still mutate:
+
+const arr = [1, 2];
+arr.push(3); //! allowed
+
+
+
+//* 🧠 Scope (VERY IMPORTANT)
+
+//* Scope = where a variable can be accessed
+
+//* Types:
+//* Global scope 🌍 → accessible everywhere
+//* Function scope 🧩 → inside function only
+//* Block scope 🧱 → inside { }
+{
+    let a = 10;
+}
+console.log(a);//! ❌ not accessible
+
+
+//& ⏳ Hoisting
+
+//! JavaScript moves declarations to the top before execution.
+
+//! var hoisting:
+//! console.log(a); // undefined
+//! var a = 10;
+//! let/const hoisting:
+
+//! They are hoisted but in Temporal Dead Zone (TDZ) ❌
+
+//! console.log(b); // ❌ ReferenceError
+//! let b = 10;
+
+//! 💡 Key idea:
+
+//! var → hoisted + initialized as undefined
+//! let/const → hoisted but not usable before declaration
+
+
+// Data Types in JavaScript
+
+// JavaScript has 2 categories:
+
+// 🧱 Primitive Type
+
+// 🔹 String
+// Text data
+// let name = "JS";
+
+// 🔹 Number
+// All numbers (int + float)
+// let age = 25;
+// let price = 99.99;
+
+// 🔹 Boolean
+// let isReady = true;
+
+// 🔹 Null
+// Intentional “empty”
+// let x = null;
+
+// 🔹 Undefined
+// Declared but no value
+// let y;
+// console.log(y); // undefined
+
+// 🔹 BigInt
+// Very large numbers
+// let big = 123456789012345678901234567890n;
+
+// 🔹 Symbol
+// Unique identifier
+// let id = Symbol("id");
+
+// 🧺 Non-Primitive Types
+// Object
+// Array
+// Function
+// let obj = { name: "JS" };
+// let arr = [1, 2, 3];
+
+// ➕ 3. Operators in JavaScript
+
+// 🔹 Arithmetic
+// + - * / % **
+// 5 + 2  // 7
+// 5 % 2  // 1
+// 2 ** 3 // 8
+
+// 🔹 Assignment
+// = += -= *= /=
+// let x = 10;
+// x += 5; // 15
+
+// 🔹 Comparison
+// ==   (loose equality)
+// ===  (strict equality)
+// !=   !==
+// > < >= <=
+
+// ⚠️ Always prefer ===
+
+// "5" == 5   // true (type conversion)
+// "5" === 5  // false
+
+// 🔹 Logical Operators
+// &&  (AND)
+// ||  (OR)
+// !   (NOT)
+// true && false // false
+// true || false // true
+
+// 🔹 Type Operators
+// typeof
+// instanceof
+// typeof 10 // "number"
+
+
+
+//* Type Conversion
+//* 🔹 Implicit Conversion (JS does it)
+//* "5" + 1  // "51"
+//* "5" - 1  // 4
+
+//* Explicit Conversion (you do it)
+//* To Number
+//* Number("10") // 10
+//* To String
+//* String(10) // "10"
+//* To Boolean
+//* Boolean(1)   // true
+//* Boolean(0)   // false
+
+// 💡 Rule:
+// 0, "", null, undefined, NaN → false
+// everything else → true
+
+// ⌨️ 5. Input / Output (JS Basics)
+// 🔹 Output
+// Console
+// console.log("Hello");
+// console.error("Error");
+// console.warn("Warning");
+
+// 🔹 Input (Browser)
+// prompt()
+// let name = prompt("Enter your name");
+// console.log(name);
+// alert()
+// alert("Hello User!");
+// confirm()
+// let result = confirm("Are you sure?");
+console.log(result); // true/false
+
+
+
+
+
