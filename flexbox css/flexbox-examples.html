@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSS Flexbox — Full Examples</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: #f4f5f7;
+    color: #222;
+    margin: 0;
+    padding: 40px 20px;
+    line-height: 1.5;
+  }
+  h1 { text-align: center; }
+  .section {
+    max-width: 900px;
+    margin: 0 auto 50px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 24px 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  .section h2 { margin-top: 0; }
+  .section code.tag {
+    display: inline-block;
+    background: #eef1f5;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    margin-bottom: 10px;
+  }
+  pre {
+    background: #1e1e2e;
+    color: #e5e5e5;
+    padding: 14px 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+  }
+
+  /* ---------- DEMO BOX STYLES (used to visualize each example) ---------- */
+  .demo {
+    border: 2px dashed #b8c0cc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 14px;
+    min-height: 90px;
+    background: #fafbfc;
+  }
+  .box {
+    background: #4c6ef5;
+    color: #fff;
+    border-radius: 6px;
+    padding: 14px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 50px;
+  }
+  .box:nth-child(2) { background: #22b8cf; }
+  .box:nth-child(3) { background: #f76707; }
+  .box:nth-child(4) { background: #37b24d; }
+  .box:nth-child(5) { background: #ae3ec9; }
+
+  /* ---------- 1. flex-direction ---------- */
+  .flex-row          { display: flex; flex-direction: row; }
+  .flex-row-reverse   { display: flex; flex-direction: row-reverse; }
+  .flex-column        { display: flex; flex-direction: column; }
+  .flex-column-reverse{ display: flex; flex-direction: column-reverse; }
+
+  /* ---------- 2. justify-content ---------- */
+  .jc-start   { display: flex; justify-content: flex-start; }
+  .jc-end     { display: flex; justify-content: flex-end; }
+  .jc-center  { display: flex; justify-content: center; }
+  .jc-between { display: flex; justify-content: space-between; }
+  .jc-around  { display: flex; justify-content: space-around; }
+  .jc-evenly  { display: flex; justify-content: space-evenly; }
+
+  /* ---------- 3. align-items ---------- */
+  .ai-demo { height: 140px; }
+  .ai-stretch    { display: flex; align-items: stretch; }
+  .ai-start      { display: flex; align-items: flex-start; }
+  .ai-end        { display: flex; align-items: flex-end; }
+  .ai-center     { display: flex; align-items: center; }
+  .ai-baseline   { display: flex; align-items: baseline; }
+  .ai-demo .box  { min-height: 0; }
+  .ai-stretch .box { min-height: unset; }
+  .tall  { font-size: 26px; padding-top: 30px; padding-bottom: 30px; }
+
+  /* ---------- 4. flex-wrap ---------- */
+  .wrap-demo { display: flex; flex-wrap: wrap; }
+  .wrap-demo .box { width: 120px; margin: 5px; }
+  .nowrap-demo { display: flex; flex-wrap: nowrap; overflow-x: auto; }
+  .nowrap-demo .box { width: 120px; flex-shrink: 0; margin: 5px; }
+
+  /* ---------- 5. align-content (needs wrap + extra height) ---------- */
+  .ac-demo {
+    display: flex;
+    flex-wrap: wrap;
+    height: 220px;
+  }
+  .ac-demo .box { width: 100px; margin: 4px; }
+  .ac-between { align-content: space-between; }
+  .ac-around  { align-content: space-around; }
+  .ac-center  { align-content: center; }
+
+  /* ---------- 6. order ---------- */
+  .order-demo { display: flex; }
+  .order-demo .o1 { order: 3; }
+  .order-demo .o2 { order: 1; }
+  .order-demo .o3 { order: 2; }
+
+  /* ---------- 7. flex-grow / shrink / basis ---------- */
+  .grow-demo { display: flex; }
+  .grow-demo .g1 { flex-grow: 1; }
+  .grow-demo .g2 { flex-grow: 2; }
+  .grow-demo .g3 { flex-grow: 1; }
+
+  .basis-demo { display: flex; }
+  .basis-demo .b1 { flex: 0 0 200px; }   /* fixed width, no grow/shrink */
+  .basis-demo .b2 { flex: 1; }           /* fills remaining space */
+
+  /* ---------- 8. align-self ---------- */
+  .self-demo { display: flex; height: 140px; }
+  .self-demo .s1 { align-self: flex-start; }
+  .self-demo .s2 { align-self: center; }
+  .self-demo .s3 { align-self: flex-end; }
+  .self-demo .s4 { align-self: stretch; }
+
+  /* ---------- 9. gap ---------- */
+  .gap-demo { display: flex; gap: 20px; }
+
+  /* ---------- REAL WORLD PATTERNS ---------- */
+
+  /* Navbar */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #212529;
+    color: #fff;
+    padding: 14px 20px;
+    border-radius: 8px;
+  }
+  .navbar .logo { font-weight: bold; font-size: 1.2em; }
+  .navbar ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+  .navbar a { color: #fff; text-decoration: none; }
+
+  /* Perfect centering */
+  .center-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160px;
+    background: #eef1f5;
+    border-radius: 8px;
+  }
+
+  /* Card row */
+  .card-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .card {
+    flex: 1 1 200px;
+    background: #eef1f5;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card h3 { margin-top: 0; }
+
+  /* Holy grail layout */
+  .holy-grail {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .hg-header, .hg-footer {
+    background: #4c6ef5;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+  }
+  .hg-body {
+    display: flex;
+    flex: 1;
+  }
+  .hg-nav, .hg-aside {
+    background: #dfe4ea;
+    padding: 12px;
+    flex: 0 0 140px;
+  }
+  .hg-main {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 12px;
+  }
+
+  /* Sticky footer using flex on body-like wrapper */
+  .sticky-demo {
+    display: flex;
+    flex-direction: column;
+    min-height: 220px;
+    border: 2px dashed #b8c0cc;
+    border-radius: 8px;
+  }
+  .sticky-demo .content { flex: 1; padding: 12px; }
+  .sticky-demo footer { background: #212529; color: #fff; padding: 10px; text-align: center; }
+
+  /* Media object (image + text side by side) */
+  .media { display: flex; gap: 14px; }
+  .media img, .media .avatar {
+    flex: 0 0 60px;
+    height: 60px;
+    background: #adb5bd;
+    border-radius: 50%;
+  }
+  .media .text { flex: 1; }
+</style>
+</head>
+<body>
+
+<h1>CSS Flexbox — Full Reference &amp; Examples</h1>
+
+<!-- 1. flex-direction -->
+<div class="section">
+  <h2>1. flex-direction</h2>
+  <code class="tag">display:flex; flex-direction: row | row-reverse | column | column-reverse;</code>
+
+  <p><strong>row</strong> (default)</p>
+  <div class="demo flex-row">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+  </div>
+
+  <p><strong>row-reverse</strong></p>
+  <div class="demo flex-row-reverse">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+  </div>
+
+  <p><strong>column</strong></p>
+  <div class="demo flex-column">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+  </div>
+
+  <pre><code>.container {
+  display: flex;
+  flex-direction: row; /* row | row-reverse | column | column-reverse */
+}</code></pre>
+</div>
+
+<!-- 2. justify-content -->
+<div class="section">
+  <h2>2. justify-content (main axis alignment)</h2>
+
+  <p><strong>flex-start</strong></p>
+  <div class="demo jc-start"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+  <p><strong>flex-end</strong></p>
+  <div class="demo jc-end"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+  <p><strong>center</strong></p>
+  <div class="demo jc-center"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+  <p><strong>space-between</strong></p>
+  <div class="demo jc-between"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+  <p><strong>space-around</strong></p>
+  <div class="demo jc-around"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+  <p><strong>space-evenly</strong></p>
+  <div class="demo jc-evenly"><div class="box">1</div><div class="box">2</div><div class="box">3</div></div>
+
+  <pre><code>.container {
+  display: flex;
+  justify-content: center;
+  /* flex-start | flex-end | center | space-between | space-around | space-evenly */
+}</code></pre>
+</div>
+
+<!-- 3. align-items -->
+<div class="section">
+  <h2>3. align-items (cross axis alignment)</h2>
+
+  <p><strong>stretch</strong> (default)</p>
+  <div class="demo ai-demo ai-stretch"><div class="box">1</div><div class="box tall">2</div><div class="box">3</div></div>
+
+  <p><strong>flex-start</strong></p>
+  <div class="demo ai-demo ai-start"><div class="box">1</div><div class="box tall">2</div><div class="box">3</div></div>
+
+  <p><strong>flex-end</strong></p>
+  <div class="demo ai-demo ai-end"><div class="box">1</div><div class="box tall">2</div><div class="box">3</div></div>
+
+  <p><strong>center</strong></p>
+  <div class="demo ai-demo ai-center"><div class="box">1</div><div class="box tall">2</div><div class="box">3</div></div>
+
+  <pre><code>.container {
+  display: flex;
+  align-items: center;
+  /* stretch | flex-start | flex-end | center | baseline */
+}</code></pre>
+</div>
+
+<!-- 4. flex-wrap -->
+<div class="section">
+  <h2>4. flex-wrap</h2>
+
+  <p><strong>wrap</strong> (items wrap to new line when out of space)</p>
+  <div class="demo wrap-demo">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+    <div class="box">4</div><div class="box">5</div><div class="box">6</div>
+  </div>
+
+  <p><strong>nowrap</strong> (default — items shrink or overflow)</p>
+  <div class="demo nowrap-demo">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+    <div class="box">4</div><div class="box">5</div><div class="box">6</div>
+  </div>
+
+  <pre><code>.container {
+  display: flex;
+  flex-wrap: wrap; /* nowrap | wrap | wrap-reverse */
+}</code></pre>
+</div>
+
+<!-- 5. align-content -->
+<div class="section">
+  <h2>5. align-content (spacing between wrapped rows)</h2>
+  <p>Only has an effect when <code>flex-wrap: wrap</code> and there is extra height.</p>
+
+  <p><strong>space-between</strong></p>
+  <div class="demo ac-demo ac-between">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+    <div class="box">4</div><div class="box">5</div>
+  </div>
+
+  <p><strong>center</strong></p>
+  <div class="demo ac-demo ac-center">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+    <div class="box">4</div><div class="box">5</div>
+  </div>
+
+  <pre><code>.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  /* flex-start | flex-end | center | space-between | space-around | stretch */
+}</code></pre>
+</div>
+
+<!-- 6. order -->
+<div class="section">
+  <h2>6. order</h2>
+  <p>Visually reorders items without changing the HTML.</p>
+  <div class="demo order-demo">
+    <div class="box o1">1 (order:3)</div>
+    <div class="box o2">2 (order:1)</div>
+    <div class="box o3">3 (order:2)</div>
+  </div>
+  <pre><code>.item-1 { order: 3; }
+.item-2 { order: 1; }
+.item-3 { order: 2; }
+/* default order is 0; lower numbers come first */</code></pre>
+</div>
+
+<!-- 7. flex-grow/shrink/basis -->
+<div class="section">
+  <h2>7. flex-grow, flex-shrink, flex-basis (shorthand: flex)</h2>
+
+  <p><strong>flex-grow</strong> — how items share extra space</p>
+  <div class="demo grow-demo">
+    <div class="box g1">grow:1</div>
+    <div class="box g2">grow:2</div>
+    <div class="box g3">grow:1</div>
+  </div>
+
+  <p><strong>flex-basis + flex:1</strong> — fixed sidebar + fluid content</p>
+  <div class="demo basis-demo">
+    <div class="box b1">fixed 200px</div>
+    <div class="box b2">flex: 1 (fills rest)</div>
+  </div>
+
+  <pre><code>/* shorthand: flex: grow shrink basis; */
+.sidebar { flex: 0 0 200px; }  /* don't grow, don't shrink, 200px wide */
+.content { flex: 1; }          /* grow to fill remaining space */
+
+.item-a { flex-grow: 1; }
+.item-b { flex-grow: 2; } /* takes twice as much extra space as item-a */</code></pre>
+</div>
+
+<!-- 8. align-self -->
+<div class="section">
+  <h2>8. align-self (override align-items per item)</h2>
+  <div class="demo self-demo">
+    <div class="box s1">start</div>
+    <div class="box s2">center</div>
+    <div class="box s3">end</div>
+    <div class="box s4">stretch</div>
+  </div>
+  <pre><code>.container { display: flex; height: 140px; }
+.item-1 { align-self: flex-start; }
+.item-2 { align-self: center; }
+.item-3 { align-self: flex-end; }
+.item-4 { align-self: stretch; }</code></pre>
+</div>
+
+<!-- 9. gap -->
+<div class="section">
+  <h2>9. gap (modern spacing, no margin hacks)</h2>
+  <div class="demo gap-demo">
+    <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+  </div>
+  <pre><code>.container {
+  display: flex;
+  gap: 20px;        /* row-gap and column-gap both */
+  /* or separately: */
+  row-gap: 10px;
+  column-gap: 20px;
+}</code></pre>
+</div>
+
+<hr style="max-width:900px; margin:50px auto;">
+
+<h1>Real-World Layout Patterns</h1>
+
+<!-- Navbar -->
+<div class="section">
+  <h2>A. Navbar (logo left, links right)</h2>
+  <div class="navbar">
+    <div class="logo">MyLogo</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <pre><code>&lt;nav class="navbar"&gt;
+  &lt;div class="logo"&gt;MyLogo&lt;/div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;About&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar ul { display: flex; gap: 20px; list-style: none; }</code></pre>
+</div>
+
+<!-- Perfect centering -->
+<div class="section">
+  <h2>B. Perfectly center anything</h2>
+  <div class="center-box"><div class="box">Centered</div></div>
+  <pre><code>.center-box {
+  display: flex;
+  justify-content: center; /* horizontal */
+  align-items: center;     /* vertical */
+  height: 100vh;           /* or any fixed height */
+}</code></pre>
+</div>
+
+<!-- Card row -->
+<div class="section">
+  <h2>C. Responsive card row</h2>
+  <div class="card-row">
+    <div class="card"><h3>Card 1</h3><p>Some content here.</p></div>
+    <div class="card"><h3>Card 2</h3><p>Some content here.</p></div>
+    <div class="card"><h3>Card 3</h3><p>Some content here.</p></div>
+  </div>
+  <pre><code>.card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.card {
+  flex: 1 1 200px; /* grow, shrink, min width 200px before wrapping */
+}</code></pre>
+</div>
+
+<!-- Holy grail layout -->
+<div class="section">
+  <h2>D. Holy Grail Layout (header / nav / main / aside / footer)</h2>
+  <div class="holy-grail">
+    <div class="hg-header">Header</div>
+    <div class="hg-body">
+      <div class="hg-nav">Nav</div>
+      <div class="hg-main">Main content</div>
+      <div class="hg-aside">Aside</div>
+    </div>
+    <div class="hg-footer">Footer</div>
+  </div>
+  <pre><code>.holy-grail {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.hg-body { display: flex; flex: 1; }
+.hg-nav, .hg-aside { flex: 0 0 140px; }
+.hg-main { flex: 1; }</code></pre>
+</div>
+
+<!-- Sticky footer -->
+<div class="section">
+  <h2>E. Sticky footer (footer stays at bottom even with little content)</h2>
+  <div class="sticky-demo">
+    <div class="content">Short page content...</div>
+    <footer>Footer always at the bottom</footer>
+  </div>
+  <pre><code>.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.content { flex: 1; }
+footer { /* stays pinned to bottom */ }</code></pre>
+</div>
+
+<!-- Media object -->
+<div class="section">
+  <h2>F. Media object (avatar + text, e.g. comment/profile row)</h2>
+  <div class="media">
+    <div class="avatar"></div>
+    <div class="text">
+      <strong>Jane Doe</strong>
+      <p>This is a comment or bio text next to a fixed-size avatar.</p>
+    </div>
+  </div>
+  <pre><code>.media { display: flex; gap: 14px; }
+.media .avatar { flex: 0 0 60px; height: 60px; border-radius: 50%; }
+.media .text { flex: 1; }</code></pre>
+</div>
+
+<div class="section" style="text-align:center;">
+  <h2>Cheat Sheet Summary</h2>
+  <pre><code>/* CONTAINER properties */
+display: flex;
+flex-direction: row | row-reverse | column | column-reverse;
+flex-wrap: nowrap | wrap | wrap-reverse;
+justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly;
+align-items: stretch | flex-start | flex-end | center | baseline;
+align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+gap: 10px; /* row-gap column-gap */
+
+/* ITEM properties */
+order: 0;               /* default 0, lower = earlier */
+flex-grow: 0;            /* default 0, how much to grow */
+flex-shrink: 1;          /* default 1, how much to shrink */
+flex-basis: auto;        /* starting size before grow/shrink */
+flex: 0 1 auto;          /* shorthand for grow shrink basis */
+align-self: auto | flex-start | flex-end | center | baseline | stretch;</code></pre>
+</div>
+
+</body>
+</html>
