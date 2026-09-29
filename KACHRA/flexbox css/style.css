@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: black;
+    color: azure;
+}
+
+/* FLEX CONTAINER */
+.container {
+    display: flex;
+
+    /*! flex directions */
+    /* flex-direction: row; */
+    /* flex-direction: row-reverse; */
+    /* flex-direction: column; */
+    /* flex-direction: column-reverse; */
+
+
+    /*! flex wrap */
+    /* flex-wrap: nowrap; */
+    /* flex-wrap: wrap; */
+    /* flex-wrap: wrap-reverse; */
+
+
+    /*! justify content */
+    justify-content: flex-start;
+    height: 300px;
+    border: 3px solid rgb(255, 255, 255);
+    margin: 20px;
+}
+
+/* FLEX ITEMS */
+/* .item { */
+/* background-color: #4CAF50;
+    color: white; */
+/* padding: 50px; */
+/* padding: 10px;
+    margin: 10px;
+    width: 10 px;
+    height: 10 px;
+    font-size: 20px;
+
+
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 100px; */
+
+/* } */
+
+
+
+/* FLEX CONTAINER */
+.container {
+    display: flex;
+    height: 200px;
+    border: 3px solid rgb(234, 234, 234);
+    margin: 20px;
+
+    /* 👇 CHANGE THIS LINE AGAIN & AGAIN */
+    /* justify-content: flex-start;
+    justify-content: flex-end; */
+    justify-content: center;
+    /* justify-content: baseline;
+    justify-content: space-around;
+    justify-content: space-between;
+    justify-content: space-evenly; */
+
+    /* align-items: flex-start;
+    align-items: flex-end;
+    align-items: center; */
+    /* align-items: stretch;Agar ek item bada ho jaye (height/width), kya baaki uske jaise hone ki koshish karte hain?” */
+}
+
+.item {
+    width: 60px;
+    height: 60px;
+    background: teal;
+    color: rgb(255, 255, 255);
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
